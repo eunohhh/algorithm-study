@@ -2,7 +2,7 @@
 // 요. 단 단어의 길이가 짝수일 경우 가운데 2개의 문자를 출력합니다.
 function solution(str) {
   const middle = Math.floor(str.length / 2);
-  return str.length % 2 ? str[middle] : [...str].slice(middle - 1, middle + 1).join('');
+  return str.length % 2 ? str[middle] : str.substring(middle - 1, middle + 1);
 }
 
 const inputs = ['study', 'good'];
