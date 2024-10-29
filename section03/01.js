@@ -5,8 +5,11 @@
 // 단 회문을 검사할 때 대소문자를 구분하지 않습니다.
 function solution(str) {
   const lower = str.toLowerCase();
-  if (lower[0] === lower[lower.length - 1]) return 'YES';
-  else return 'NO';
+  const n = str.length;
+  for (let i = 0; i < Math.floor(n / 2); i++) {
+    if (lower[i] !== lower[n - i - 1]) return 'NO';
+    else return 'YES';
+  }
 }
 
 const inputs = ['gooG'];
