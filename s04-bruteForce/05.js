@@ -1,47 +1,38 @@
-// 졸업 선물
-// 선생님은 올해 졸업하는 반 학생들에게 졸업선물을 주려고 합니다.
-// 학생들에게 인터넷 쇼핑몰에서 각자 원하는 상품을 골라 그 상품의 가격과 배송비를 제출하라
-// 고 했습니다. 선생님이 가지고 있는 예산은 한정되어 있습니다.
-// 현재 예산으로 최대 몇 명의 학생에게 선물을 사줄 수 있는지 구하는 프로그램을 작성하세요.
-// 선생님은 상품 하나를 50% 할인해서(반 가격) 살 수 있는 쿠폰을 가지고 있습니다. 배송비는
-// 할인에 포함되지 않습니다.
-// 첫 번째 줄에 반 학생수 N(1<=N<=1000)과 예산 M(1<=M<=100,000,000)이 주어진다.
-// 두 번째 줄부터 N줄에 걸쳐 각 학생들이 받고 싶은 상품의 가격과 배송비가 입력됩니다.
-// 상품가격과 배송비는 각각 100,000을 넘지 않습니다. 상품가격은 짝수로만 입력됩니다.
-// 첫 번째 줄에 선생님이 현재 예산으로 선물할 수 있는 최대 학생수를 출력합니다.
-// 선생님 최소한 1개 이상의 상품을 살 수 있는 예산을 가지고 있습니다.
+// K번째 큰 수
+// 현수는 1부터 100사이의 자연수가 적힌 N장의 카드를 가지고 있습니다. 같은 숫자의 카드가
+// 여러장 있을 수 있습니다. 현수는 이 중 3장을 뽑아 각 카드에 적힌 수를 합한 값을 기록하려
+// 고 합니다. 3장을 뽑을 수 있는 모든 경우를 기록합니다. 기록한 값 중 K번째로 큰 수를 출력
+// 하는 프로그램을 작성하세요.
+// 만약 큰 수부터 만들어진 수가 25 25 23 23 22 20 19......이고 K값이 3이라면 K번째 큰 값
+// 은 22입니다.
+// 첫 줄에 자연수 N(3<=N<=100)과 K(1<=K<=50) 입력되고, 그 다음 줄에 N개의 카드값이 입력 된다.
+// 첫 줄에 K번째 수를 출력합니다. K번째 수는 반드시 존재합니다.
 function solution(test) {
-  let answer = 0;
-  const budget = test[0][1];
-  const studentCount = test[0][0];
-  const products = test.slice(1);
-  products.sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
-
-  for (let i = 0; i < studentCount; i++) {
-    let money = budget - (products[i][0] / 2 + products[i][1]);
-    let count = 1;
-    for (let j = 0; j < studentCount; j++) {
-      if (j !== i && products[j][0] + products[j][1] > money) break;
-      if (j !== i && products[j][0] + products[j][1] <= money) {
-        money -= products[j][0] + products[j][1];
-        count++;
+  const length = test[0][0];
+  const nth = test[0][1] - 1;
+  const numbers = test[1];
+  let answer = [];
+  for (let i = 0; i < length; i++) {
+    for (let j = i + 1; j < length; j++) {
+      for (let k = j + 1; k < length; k++) {
+        if (i !== j && i !== k && j !== k) {
+          answer.push(numbers[i] + numbers[j] + numbers[k]);
+        }
       }
     }
-    answer = count;
   }
-  return answer;
+  answer.sort((a, b) => b - a);
+  answer = [...new Set(answer)];
+  return answer[nth];
 }
+
 const inputs = [
   [
-    [5, 28],
-    [6, 6],
-    [2, 2],
-    [4, 3],
-    [4, 5],
     [10, 3],
+    [13, 15, 34, 23, 45, 65, 33, 11, 26, 42],
   ],
 ];
-const expected = [4];
+const expected = [143];
 
 function test(inputs, expected) {
   const solved = inputs.map((input) => solution(input));
